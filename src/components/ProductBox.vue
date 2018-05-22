@@ -23,10 +23,26 @@ export default {
       showDescription: false
     }
   },
+  computed: {
+  },
   methods: {
     addToCart (product) {
-      this.$store.commit('addToCart', product)
+      if (product.stock <= 0) {
+        alert('That item is currently out of stock.')
+      } else {
+        this.$store.commit('reduceStock', product)
+        this.$store.commit('addToCart', product)
+      }
     }
   }
 }
 </script>
+<style scoped>
+#haha {
+  display: none;
+  width: 350px;
+  height: 350px;
+  background-color: red;
+  color: white;
+}
+</style>

@@ -24,14 +24,14 @@ export default new Vuex.Store({
     },
     // deals of day, generates 4 random items to display
     dealsOfDay: (state) => {
-      return state.products.sort(() => 0.5 - Math.random()).slice(0, 4)
+      return state.products.sort(() => 0.5 - Math.random()).slice(0, 4).sort((a, b) => a.sku - b.sku)
     },
-    // ensures each item is the correct selected category
+    // ensures each item is the correct selected category and sort that
     productsByCategory: (state) => {
       return (category) => {
         return state.products.filter(product => {
           return product.category === category
-        })
+        }).sort((a, b) => a.sku - b.sku)
       }
     },
     // displays selected category
@@ -50,6 +50,13 @@ export default new Vuex.Store({
     addToCart: (state, product) => {
       state.cart.push(product)
     },
+    // reduce stock count
+    reduceStock: (state, product) => {
+      product.stock = product.stock - 1
+      let tempProducts = state.products.filter(stateProduct => stateProduct.sku !== product.sku)
+      tempProducts.push(product)
+      state.products = tempProducts
+    },
     // remove item from shopping cart
     removeCartItem: (state, product) => {
       let index = state.cart.indexOf(product)
@@ -59,10 +66,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchProducts ({commit}) {
-      axios.get('http://www.json-generator.com/api/json/get/bTHWQacIFu?indent=2')
+    fetchProducts ({ commit }) {
+      axios.get('http://www.json-generator.com/api/json/get/coWruhoHoy?indent=2')
         .then((response) => {
-          console.log(response.data.products)
           commit('pushProducts', response.data.products)
         })
         .catch(error => alert(error))

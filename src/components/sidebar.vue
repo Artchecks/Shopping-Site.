@@ -1,7 +1,7 @@
 <template>
   <div>
     <p id="primary">categories</p>
-    <p class="cata" @click="setCategory(null)">Deals of the Day</p>
+    <p class="cata" @click="setCategory(null)">Random Deals</p>
     <p class="cata" v-for="category in categories" :key="category" @click="setCategory(category)"> {{ category }} </p>
   </div>
 </template>

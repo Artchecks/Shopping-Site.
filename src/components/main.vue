@@ -1,7 +1,7 @@
 <template>
  <div id="flexy">
-   <product-box v-if="selectedProducts.length === 0" v-for="(product, index) in dealsOfDay" :key="index" :product="product" />
-   <product-box v-for="(product, index) in selectedProducts" :key="index" :product="product"/>
+   <product-box v-if="selectedProducts.length === 0" v-for="product in dealsOfDay" :key="product.sku" :product="product" />
+   <product-box v-for="product in selectedProducts" :key="product.sku" :product="product"/>
    <router-link to="/shopping-cart"><img id="cartsie" @click="show = !show" src="https://cdn.pixabay.com/photo/2015/12/23/01/14/edit-1105049_960_720.png" alt="Shopping Cart"></router-link>
  </div>
 </template>
