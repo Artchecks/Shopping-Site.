@@ -2,7 +2,7 @@
   <div class="boxes">
     <img :src="product.imgUrl" width="200px" height="200px">
     <br>
-    {{product.item}} - ${{product.price}}
+    {{product.item}} - {{product.price | currencyFmt}}
     <span v-show="showDescription"><br>{{product.description}}</span>
     <br>
     <button @click="showDescription = !showDescription">Details</button>

@@ -49,6 +49,13 @@ export default new Vuex.Store({
     // pushes selected items to Shopping Cart
     addToCart: (state, product) => {
       state.cart.push(product)
+    },
+    // remove item from shopping cart
+    removeCartItem: (state, product) => {
+      let index = state.cart.indexOf(product)
+      if (index > -1) {
+        state.cart.splice(index, 1)
+      }
     }
   },
   actions: {

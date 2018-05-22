@@ -7,6 +7,9 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+Vue.filter('currencyFmt', (number) => {
+  return number.toLocaleString('en-US', {style: 'currency', currency: 'USD'})
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

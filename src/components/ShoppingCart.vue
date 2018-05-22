@@ -2,26 +2,65 @@
 <div id="cart">
   <div id="cart-box" v-for="(product, index) in shoppingCart" :key="index">
     <img :src="product.imgUrl" width="200px" height="200px"><br>
-    {{product.item}} - {{product.price}}
+    {{product.item}} - {{product.price | currencyFmt}}
+    <button id="remove" @click="removeItem(product)">Remove</button>
   </div>
-  {{ total }}
+  <router-link to="/">
+    <button>Continue Shopping</button>
+  </router-link>
+  <table>
+    <tr>
+      <th>Tax Rate: </th>
+      <td> {{ taxes | percentFmt }} </td>
+    </tr>
+    <tr>
+      <th>Taxes Total: </th>
+      <td> {{ totalTaxes | currencyFmt }} </td>
+    </tr>
+    <tr>
+      <th>Grand Total: </th>
+      <td> {{ grandTotal | currencyFmt }} </td>
+    </tr>
+  </table>
   </div>
 </template>
 
 <script>
 export default {
-  data: {
+  data () {
+    return {
       show: false,
-      taxes: 0,
-      total: 0
-    },
+      taxes: 0.075
+    }
+  },
   computed: {
     shoppingCart () {
       return this.$store.getters.shoppingCart
+    },
+    subTotal () {
+      return this.$store.getters.shoppingCart.reduce((total, product) => {
+        return total + product.price
+      }, 0)
+    },
+    totalTaxes () {
+      return this.subTotal * this.taxes
+    },
+    grandTotal () {
+      return this.subTotal + this.totalTaxes
     }
   },
-  totalPrice () {
-    // this.total = this.$store.getters.shoppingCart.forEach(product.price + product.price.length)
+  methods: {
+    removeItem (product) {
+      console.log(product)
+      this.$store.commit('removeCartItem', product)
+    }
+  },
+  filters: {
+    percentFmt (number) {
+      let percent = number * 100
+      let percentStr = `${percent}%`
+      return percentStr
+    }
   }
 }
 </script>
@@ -59,5 +98,8 @@ export default {
   bottom: 8;
   right: 8;
   color: #4183E0;
+}
+table {
+  color: #4183E0;;
 }
 </style>
